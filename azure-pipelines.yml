@@ -24,8 +24,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    platform: 'Visual Studio 2017 (v141)'
-    configuration: '$(buildConfiguration)'
+    platform: "x86"
+    configuration: 'Debug'
 
 - task: VSTest@2
   inputs:
