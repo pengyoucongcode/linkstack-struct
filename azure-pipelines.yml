@@ -6,18 +6,31 @@
 trigger:
 - master
 
+trigger:
+- master
+
 pool:
-  vmImage: 'vs2017-win2016'
- 
+  vmImage: 'windows-latest'
+
 variables:
-  buildConfiguration: 'Release'
+  solution: '**/*.sln'
+  buildPlatform: 'x86'
+  buildConfiguration: 'x86'
+
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: DotNetCoreCLI@2
+- task: NuGetToolInstaller@0
+
+- task: NuGetCommand@2
   inputs:
-    command: publish
-    publishWebProjects: False
-    projects: 'MicrosoftTeams.OutgoingWebhook.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: 'Visual Studio 2017 (v141)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: 'Visual Studio 2017 (v141)'
+    configuration: '$(buildConfiguration)'
