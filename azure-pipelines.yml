@@ -7,27 +7,17 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
-
+  vmImage: 'vs2017-win2016'
+ 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86'
-  buildConfiguration: 'x86'
-
+  buildConfiguration: 'Release'
 steps:
-- task: NuGetToolInstaller@0
-
-- task: NuGetCommand@2
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: 'x86'
-    configuration: 'x86'
-
-- task: VSTest@2
-  inputs:
-    platform: 'x86'
-    configuration: 'x86'
+    command: publish
+    publishWebProjects: False
+    projects: 'MicrosoftTeams.OutgoingWebhook.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
