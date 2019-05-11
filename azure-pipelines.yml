@@ -29,5 +29,5 @@ steps:
 
 - task: VSTest@2
   inputs:
-    platform: 'Visual Studio 2017 (v141)'
-    configuration: '$(buildConfiguration)'
+    platform: 'x86'
+    configuration: 'tests'
