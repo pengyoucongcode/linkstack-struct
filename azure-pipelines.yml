@@ -11,8 +11,8 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x86'
-  buildConfiguration: 'x86'
+  buildPlatform: 'any CPU'
+  buildConfiguration: 'any CPU'
 
 steps:
 - task: NuGetToolInstaller@0
@@ -24,10 +24,10 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    platform: "x86"
+    platform: "any CPU"
     configuration: 'Debug'
 
 - task: VSTest@2
   inputs:
-    platform: 'x86'
+    platform: 'any CPU'
     configuration: 'tests'
